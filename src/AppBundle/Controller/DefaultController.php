@@ -31,13 +31,26 @@ class DefaultController extends Controller
      * @param $key
      * @param $value
      *
-     * @Route("/{key}/{value}", name="create_key", methods={"GET"})
+     * @Route("/create/{key}/{value}", name="create_key", methods={"GET"})
      *
      * @return JsonResponse
      */
     public function createKeyAction($key, $value) {
 
         $this->redisClient->set($key, $value);
+        return $this->json([
+            "status" => Response::HTTP_OK
+        ]);
+    }
+
+    /**
+     * @param $key
+     * @Route("/delete/{key}", name="delete_key", methods={"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function deleteKeyAction($key) {
+        $this->redisClient->delete($key);
         return $this->json([
             "status" => Response::HTTP_OK
         ]);
