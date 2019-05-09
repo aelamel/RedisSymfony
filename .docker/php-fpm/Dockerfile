@@ -1,33 +1,7 @@
-FROM alpine:3.8
+FROM php:7.1-fpm
 
-RUN apk add --update \
+RUN apt-get update && apt-get install -y \
     coreutils \
-    php7-fpm \
-    php7-apcu \
-    php7-ctype \
-    php7-curl \
-    php7-dom \
-    php7-gd \
-    php7-iconv \
-    php7-imagick \
-    php7-json \
-    php7-intl \
-    php7-mcrypt \
-    php7-fileinfo\
-    php7-mbstring \
-    php7-opcache \
-    php7-openssl \
-    php7-pdo \
-    php7-pdo_mysql \
-    php7-mysqli \
-    php7-xml \
-    php7-zlib \
-    php7-phar \
-    php7-tokenizer \
-    php7-session \
-    php7-simplexml \
-    php7-xdebug \
-    php7-zip \
     make \
     curl
 
@@ -37,13 +11,18 @@ RUN rm -rf /var/cache/apk/* && rm -rf /tmp/* && \
         && php composer-setup.php && rm composer-setup.php* \
         && chmod +x composer.phar && mv composer.phar /usr/bin/composer
 
+RUN pecl install redis-3.1.6
+RUN docker-php-ext-enable redis
+
+RUN echo 'alias ll="ls -ltr"' >> ~/.bashrc
+
 ADD symfony.ini /etc/php7/conf.d/
 ADD symfony.ini /etc/php7/cli/conf.d/
-ADD xdebug.ini  /etc/php7/conf.d/
+#ADD xdebug.ini  /etc/php7/conf.d/
 
 ADD symfony.pool.conf /etc/php7/php-fpm.d/
 
-CMD ["php-fpm7", "-F"]
+CMD ["php-fpm", "-F"]
 
 WORKDIR /var/www/app
 EXPOSE 9001

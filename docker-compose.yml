@@ -31,3 +31,8 @@ services:
             - php
         volumes:
             - .docker/logs/nginx:/var/log/nginx:cached
+
+    redis:
+      image: redis
+      ports:
+        - 6379:6379
