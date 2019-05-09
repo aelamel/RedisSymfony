@@ -69,3 +69,12 @@ swiftmailer:
 sensio_framework_extra:
    router:
         annotations: false
+
+
+snc_redis:
+    clients:
+        default:
+            type: phpredis
+            alias: default
+            dsn: redis://redis
+            logging: '%kernel.debug%'
