@@ -19,7 +19,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="keys")
      */
     public function indexAction()
     {
