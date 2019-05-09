@@ -55,4 +55,17 @@ class DefaultController extends Controller
             "status" => Response::HTTP_OK
         ]);
     }
+
+    /**
+     * @param $key
+     * @Route("/delete/like/{key}", name="delete_like_key", methods={"GET"})
+     *
+     * @return JsonResponse
+     */
+    public function deleteKeyLikeAction($key) {
+        $this->redisClient->delete($this->redisClient->keys($key."*"));
+        return $this->json([
+            "status" => Response::HTTP_OK
+        ]);
+    }
 }
